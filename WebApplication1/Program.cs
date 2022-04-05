@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Models;
 using WebApplication1.Data;
+using Microsoft.AspNetCore.Cors;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,17 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddDbContext<WeatherDbContext>(options => options.UseSqlServer(("Data Source=N-SE-01-2097;Database=weatherdb;Trusted_Connection=True;")));
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      builder =>
+                      {
+                          builder.WithOrigins("https://localhost:7290");
+                      });
+});
 
 var app = builder.Build();
 
@@ -26,6 +38,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+app.UseRouting();
+
+app.UseCors(MyAllowSpecificOrigins);
 
 app.MapControllers();
 
