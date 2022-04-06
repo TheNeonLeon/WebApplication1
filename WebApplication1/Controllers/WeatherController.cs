@@ -11,30 +11,30 @@ namespace WebApplication1.Controllers
     [ApiController]
     public class WeatherController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-       {
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-    };
-        private readonly WeatherDbContext? _context;
+        private readonly WeatherDbContext _context;
+        public WeatherController(WeatherDbContext context) { _context = context; }
 
-        public WeatherController(WeatherDbContext context)
-        {
-            _context = context; 
-        }
-        /// <summary>
-        /// Testing
-        /// </summary>
-        /// <returns></returns>
         [HttpGet]
-        public IEnumerable<Weather> GetWeather()
+        public async Task<ActionResult<Weather>> GetWeathers()
         {
-            return Enumerable.Range(1, 5).Select(index => new Weather
+            var weather = await _context.Weather.ToListAsync();
+
+            if(weather == null)
             {
-                Temperature = Random.Shared.Next(-20, 55),
-                WeatherName = Summaries[Random.Shared.Next(Summaries.Length)]
-                
-            })
-            .ToArray();
+                return NotFound();
+            }
+            return Ok (weather);
+            
         }
+
+        [HttpPost]
+        public async Task<ActionResult<Weather>> PostWeather(Weather weather)
+        {
+           await _context.Weather.AddAsync(weather);
+            await _context.SaveChangesAsync();  
+            return CreatedAtAction(nameof(weather), new { id = weather.Id }, weather);
+            
+        }
+
     }
 }

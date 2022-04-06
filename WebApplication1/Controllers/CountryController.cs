@@ -25,5 +25,14 @@ namespace WebApplication1.Controllers
             }
             return Ok(country);
         }
+
+        [HttpPost]
+        public async Task<ActionResult<Country>> PostCountry(Country country)
+        {
+            await _context.Country.AddAsync(country);
+            await _context.SaveChangesAsync();
+            return CreatedAtAction(nameof(country), new { id = country.CountryId}, country);
+
+        }
     }
 }
