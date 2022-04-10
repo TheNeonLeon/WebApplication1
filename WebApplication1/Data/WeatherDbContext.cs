@@ -21,9 +21,12 @@ namespace WebApplication1.Data
             modelBuilder.Entity<Weather>().HasData(
                 new Weather
                 {
+
                     Id = 1,
                     WeatherName = "Rainy",
                     Temperature = 10,
+
+                    
                 },
                  new Weather
                  {
@@ -44,16 +47,20 @@ namespace WebApplication1.Data
                 { 
                     CountryId = 1, 
                     CountryName = "Sweden" ,
+                    WeatherId = 1,
                 },
                  new Country
                  {
                      CountryId = 2,
                      CountryName = "Spain",
+                     WeatherId = 1,
+
                  },
                   new Country
                   {
                       CountryId = 3,
                       CountryName = "Norway",
+                      WeatherId= 1,
                   }
             );
         }

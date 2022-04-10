@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using WebApplication1.Models;
 using WebApplication1.Data;
 using Microsoft.AspNetCore.Cors;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +13,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
-builder.Services.AddDbContext<WeatherDbContext>(options => options.UseSqlServer(("Data Source=N-SE-01-2097;Database=weatherdb;Trusted_Connection=True;")));
+
+builder.Services.AddDbContext<WeatherDbContext>(options => options.UseSqlServer(("Data Source=leons-computer;Database=weatherdb;Trusted_Connection=True;")));
+builder.Services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 

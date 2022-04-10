@@ -17,7 +17,7 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public async Task<ActionResult<Weather>> GetWeathers()
         {
-            var weather = await _context.Weather.ToListAsync();
+            var weather = await _context.Weather.Include(c => c.Countries).ToListAsync();
 
             if(weather == null)
             {

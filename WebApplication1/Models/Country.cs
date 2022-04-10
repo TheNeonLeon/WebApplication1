@@ -10,7 +10,7 @@ namespace WebApplication1.Models
 
         //Relationship
         public int? WeatherId { get; set; }
-        //public Weather Weather { get; set; }
+        public Weather Weather { get; set; }
 
     }
 }
